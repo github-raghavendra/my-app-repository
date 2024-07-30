@@ -7,18 +7,25 @@ export async function loader() {
 
   if (!response.ok) {
     console.log("There was an error occurred during data fetch!");
-    return null;
+    return {isError: true, message : "sorry! could not fetch events!"};
   } else {
     const resData = await response.json();
-    console.log(resData.events);
-    return resData.events;
+    return resData;
+    //console.log(resData.events);
+    //return resData.events;
   }
 }
 
 function EventsPage() {
-  const events = useLoaderData();
+  const data = useLoaderData();
+  console.log("useloaderData values");
+  console.log(data);
 
-  return <EventsList events={events} />;
+  if(data.isError){
+    return <p>{data.message}</p>
+  }
+
+  return <EventsList events={data} />;
 }
 export default EventsPage;
 
