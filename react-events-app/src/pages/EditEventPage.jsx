@@ -1,9 +1,8 @@
-import React from 'react'
+import React from "react";
+import EventForm from "../components/EventForm";
 
 const EditEventPage = () => {
-  return (
-    <div>EditEventPage</div>
-  )
-}
+  return <EventForm />;
+};
 
-export default EditEventPage
+export default EditEventPage;

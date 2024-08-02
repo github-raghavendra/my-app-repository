@@ -1,4 +1,4 @@
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, json } from "react-router-dom";
 
 import EventsList from "../components/EventsList";
 
@@ -7,7 +7,17 @@ export async function loader() {
 
   if (!response.ok) {
     console.log("There was an error occurred during data fetch!");
-    return {isError: true, message : "sorry! could not fetch events!"};
+    //return {isError: true, message : "sorry! could not fetch events!"};
+    //throw new Response(JSON.stringify({message: "sorry! Could not fetch events."}), {status:500});
+    // utility function from react-router-dom
+    throw json(
+      {
+        message: "Sorry! Could not fetch events.",
+      },
+      {
+        status: 500,
+      }
+    );
   } else {
     const resData = await response.json();
     return resData;
@@ -17,18 +27,17 @@ export async function loader() {
 }
 
 function EventsPage() {
-  const data = useLoaderData();
+  const events = useLoaderData();
   console.log("useloaderData values");
-  console.log(data);
+ // console.log(data);
 
-  if(data.isError){
-    return <p>{data.message}</p>
+  if (events.isError) {
+    return <p>{events.message}</p>;
   }
 
-  return <EventsList events={data} />;
+  return <EventsList events={events} />;
 }
 export default EventsPage;
-
 
 /*
 import React from "react";
